@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.DepartmentMapper">
+    <select id="selectByDepartmentName" resultType="com.example.demo.entity.Department">
+        select * from tb_department
+        <where>
+            department_status = "exist"
+            and department_name = #{departmentName}
+        </where>
+    </select>
+    <select id="selectDepartmentPage" resultType="com.example.demo.vo.DepartmentVO">
+        select * from tb_department,tb_user
+        <where>
+            department_status = "exist"
+            and department_manager_id = user_id
+            <if test="keyword !=null and keyword !='' ">
+                and (department_name like CONCAT('%',#{keyword},'%')
+                or user_name like CONCAT('%',#{keyword},'%'))
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+    <select id="selectByUserNickname" resultType="com.example.demo.entity.User">
+        select * from tb_user
+        where user_nickname = #{userNickname}
+    </select>
+    <select id="selectUserPage" resultType="com.example.demo.vo.UserVO">
+        select * from tb_user,tb_position,tb_department
+        <where>
+            user_position_id = position_id
+            and position_department_id = department_id
+            and user_status != "delete"
+            and department_id = #{departmentId}
+            <if test="keyword !=null and keyword !='' ">and (
+                user_name like CONCAT('%',#{keyword},'%')
+                or user_department like CONCAT('%',#{keyword},'%')
+                or user_position like CONCAT('%',#{keyword},'%')
+                or user_director like CONCAT('%',#{keyword},'%')
+                or user_department_manager like CONCAT('%',#{keyword},'%'))
+            </if>
+        </where>
+    </select>
+    <select id="selectAdminPage" resultType="com.example.demo.vo.UserVO">
+        select * from tb_user,tb_position,tb_department
+        <where>
+            user_position_id = position_id
+            and position_department_id = department_id
+            and user_status != "delete"
+            <if test="keyword !=null and keyword !='' ">and (
+                user_name like CONCAT('%',#{keyword},'%')
+                or user_department like CONCAT('%',#{keyword},'%')
+                or user_position like CONCAT('%',#{keyword},'%')
+                or user_director like CONCAT('%',#{keyword},'%')
+                or user_department_manager like CONCAT('%',#{keyword},'%'))
+            </if>
+        </where>
+    </select>
+    <select id="selectAdminList" resultType="com.example.demo.entity.User">
+        select * from tb_user,tb_position,tb_department
+        <where>
+            user_position_id = position_id
+            and position_department_id = department_id
+            and user_status = "admin"
+            and department_id = #{departmentId}
+        </where>
+    </select>
+    <select id="selectALLAdminList" resultType="com.example.demo.entity.User">
+        select * from tb_user
+        <where>
+            user_id not in (select department_manager_id from tb_department where department_status = "exist")
+            and user_status = "admin"
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PerformanceItemMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.PerformanceItem">
+        <id column="performance_item_id" jdbcType="INTEGER" property="performanceItemId"/>
+        <result column="performance_item_weight" jdbcType="TINYINT" property="performanceItemWeight"/>
+        <result column="performance_item_demand" jdbcType="VARCHAR" property="performanceItemDemand"/>
+        <result column="performance_item_standard" jdbcType="VARCHAR" property="performanceItemStandard"/>
+        <result column="performance_item_situation" jdbcType="VARCHAR" property="performanceItemSituation"/>
+        <result column="performance_item_director_grade" jdbcType="TINYINT" property="performanceItemDirectorGrade"/>
+        <result column="performance_item_department_manager_grade" jdbcType="TINYINT"
+                property="performanceItemDepartmentManagerGrade"/>
+        <result column="performance_item_performance_id" jdbcType="INTEGER" property="performanceId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    performance_item_id, performance_item_weight, performance_item_demand, performance_item_standard,
+    performance_item_situation, performance_item_director_grade, performance_item_department_manager_grade,
+    performance_item_performance_id
+  </sql>
+</mapper>

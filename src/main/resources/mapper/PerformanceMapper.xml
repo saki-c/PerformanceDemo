@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PerformanceMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.Performance">
+        <id column="performance_id" jdbcType="INTEGER" property="performanceId"/>
+        <result column="performance_term" jdbcType="DATE" property="performanceTerm"/>
+        <result column="performance_user_name" jdbcType="VARCHAR" property="performanceUserName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    performance_id, performance_term,  performance_user_name
+  </sql>
+    <select id="selectByPerformance" parameterType="com.example.demo.entity.Performance" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Base_Column_List"/>
+        from tb_performance
+        where performance_term = #{performanceTerm,jdbcType=DATE} and performance_user_name = #{userId,jdbcType=INTEGER}
+    </select>
+    <select id="selectPerformancePage" resultType="com.example.demo.vo.PerformanceVO">
+        select * from tb_user,tb_performance,tb_department,tb_position
+        <where>
+            performance_status != "saved"
+            and user_status != "delete"
+            and position_department_id = department_id
+            and user_position_id = position_id
+            and performance_user_id = user_id
+            and ((user_director_id = #{userId} or department_manager_id = #{userId}))
+            <if test="keyword !=null and keyword !='' ">
+                and (user_name like CONCAT('%',#{keyword},'%')
+                or performance_term like binary CONCAT('%',#{keyword},'%'))
+            </if>
+        </where>
+        order by performance_term desc
+    </select>
+    <select id="selectOnePerformancePage" resultType="com.example.demo.vo.PerformanceVO">
+        select * from tb_performance,tb_user
+        <where>
+            performance_user_id = #{userId}
+            and user_id = performance_user_id
+            <if test="keyword !=null and keyword !='' ">
+                and performance_term like binary CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+        order by performance_term desc
+    </select>
+</mapper>
