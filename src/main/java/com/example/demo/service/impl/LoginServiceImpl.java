@@ -1,6 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.UserMapper;
@@ -9,7 +8,6 @@ import com.example.demo.util.JWTUtil;
 import com.example.demo.util.MD5Util;
 import com.example.demo.util.Result;
 import com.example.demo.vo.LoginVO;
-import com.example.demo.vo.UserVO;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 import javax.annotation.Resource;
