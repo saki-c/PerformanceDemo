@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
             Position position = positionMapper.selectById(positionId);
             return new Result<>(200, "", userMapper.selectUserPage(position.getPositionDepartmentId(), page, queryDTO.getKeyword()));
         } catch (NumberFormatException e) {
-            return new Result<>(200,"",userMapper.selectAdminPage(page, queryDTO.getKeyword()));
+            return new Result<>(200, "", userMapper.selectAdminPage(page, queryDTO.getKeyword()));
         }
 
     }
@@ -115,6 +115,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Result reviseUser(String token, UserDTO userDTO) {
+        User user = userMapper.selectById(JWTUtil.verifyToken(token).get("id").asString());
+        if (null != userDTO.getNickname() && !"".equals(userDTO.getNickname())){
+            user.setUserNickname(userDTO.getNickname());
+        }
+        if (null != userDTO.getDirectorId()&&!"".equals(userDTO.getDirectorId())){
+            user.setUserDirectorId(userDTO.getDirectorId());
+        }
+        if(null != userDTO.getPositionId()&&!"".equals(userDTO.getPositionId())){
+            user.setUserPositionId(userDTO.getPositionId());
+        }
+        userMapper.updateById(user);
+        return  new Result(200,"成功");
+    }
+
+    @Override
     public Result resetPassword(String token, Integer userId) {
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
             return new Result(400, "你有个锤子权限");
@@ -164,6 +180,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result allAdminList() {
         return new Result<>(200, "", userMapper.selectAllAdminList());
+    }
+
+    @Override
+    public Result selectUser(String token) {
+        return new Result<>(200, "", userMapper.selectUser(JWTUtil.verifyToken(token).get("id").asString()));
     }
 
     private boolean isAdmin(String id) {

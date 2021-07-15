@@ -71,6 +71,18 @@ public class UserController {
     }
 
     /**
+     * 更新
+     *
+     * @param userDTO passDTO
+     * @return Result
+     */
+    @PostMapping("/api/user/revise")
+    public Result reviseUser(HttpServletRequest request, @RequestBody UserDTO userDTO) {
+        String token = request.getHeader("token");
+        return userService.reviseUser(token,userDTO);
+    }
+
+    /**
      * 重置密码
      *
      * @param userId 用户id
@@ -112,6 +124,17 @@ public class UserController {
     public Result adminList(HttpServletRequest request){
         String token = request.getHeader("token");
         return userService.adminList(token);
+    }
+
+    /**
+     * 获取登陆账号信息
+     * @param request
+     * @return
+     */
+    @GetMapping("/api/user/account")
+    public Result selectUser(HttpServletRequest request){
+        String token = request.getHeader("token");
+        return userService.selectUser(token);
     }
 
     /**

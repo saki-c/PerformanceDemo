@@ -46,6 +46,14 @@ public interface UserService {
     Result updateUser(String token,PassDTO passDTO);
 
     /**
+     * 修改用户信息
+     * @param token token
+     * @param userDTO userDTO
+     * @return Result
+     */
+    Result reviseUser(String token,UserDTO userDTO);
+
+    /**
      * 重置密码
      * @param token token
      * @param userId 用户id
@@ -81,4 +89,11 @@ public interface UserService {
      * @return Result
      */
     Result allAdminList();
+
+    /**
+     * 获取登陆账号信息
+     * @param token
+     * @return
+     */
+    Result selectUser(String token);
 }

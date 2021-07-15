@@ -58,7 +58,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
 
         User user = userMapper.selectById(departmentDTO.getManagerId());
-        if (null == user){
+        if (null == user) {
             return new Result(400, "不存在此用户");
         }
         if (!"admin".equals(user.getUserStatus())) {
@@ -66,23 +66,25 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
 
         QueryWrapper<Department> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("department_manager_id",departmentDTO.getManagerId());
-        queryWrapper.eq("department_status","exist");
+        queryWrapper.eq("department_manager_id", departmentDTO.getManagerId());
+        queryWrapper.eq("department_status", "exist");
         Department department = departmentMapper.selectOne(queryWrapper);
-        if (null != department){
-            return new Result(400,"此人已经是其他部门主管了");
+        if (null != department) {
+            return new Result(400, "此人已经是其他部门主管了");
         }
 
         Department department1 = new Department();
         department1.setDepartmentName(departmentDTO.getName());
         department1.setDepartmentManagerId(departmentDTO.getManagerId());
-        int departmentId = departmentMapper.insert(department1);
+        departmentMapper.insert(department1);
+        int departmentId = department1.getDepartmentId();
 
         Position position = new Position();
         position.setPositionDepartmentId(departmentId);
         position.setPositionName("部门主管");
         position.setPositionStatus("admin");
-        int positionId = positionMapper.insert(position);
+        positionMapper.insert(position);
+        int positionId = position.getPositionId();
 
         user.setUserPositionId(positionId);
         userMapper.updateById(user);
@@ -123,18 +125,18 @@ public class DepartmentServiceImpl implements DepartmentService {
             return new Result(400, "权限不足");
         }
         QueryWrapper<Position> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("position_name",positionDTO.getName());
-        queryWrapper.eq("position_department_id",positionDTO.getDepartmentId());
-        queryWrapper.eq("position_status","exist");
-        if(null != positionMapper.selectOne(queryWrapper)){
+        queryWrapper.eq("position_name", positionDTO.getName());
+        queryWrapper.eq("position_department_id", positionDTO.getDepartmentId());
+        queryWrapper.eq("position_status", "exist");
+        if (null != positionMapper.selectOne(queryWrapper)) {
             return new Result(400, "该部门已存在此岗位");
         }
         Position position = new Position();
         position.setPositionName(positionDTO.getName());
         position.setPositionDepartmentId(positionDTO.getDepartmentId());
         positionMapper.insert(position);
-        return new Result<>(200,"添加成功",position);
-}
+        return new Result<>(200, "添加成功", position);
+    }
 
     @Override
     public Result deletePosition(String token, Integer positionId) {
@@ -151,9 +153,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Result positionList() {
         QueryWrapper<Position> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("position_status","exist");
+        queryWrapper.eq("position_status", "exist");
         List<Position> list = positionMapper.selectList(queryWrapper);
-        return new Result<>(200,"",list);
+        return new Result<>(200, "", list);
     }
 
     private boolean isAdmin(String id) {

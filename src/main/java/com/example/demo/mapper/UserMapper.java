@@ -52,5 +52,10 @@ public interface UserMapper extends BaseMapper<User> {
      */
     List<User> selectAllAdminList();
 
-
+    /**
+     * 查询用户
+     * @param id
+     * @return
+     */
+    UserVO selectUser(String id);
 }
