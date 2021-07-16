@@ -4,7 +4,7 @@ import com.example.demo.dto.LoginDTO;
 import com.example.demo.util.Result;
 /**
  *
- * @author 涼月
+ * @author 咲蛍
  * @date 2021/05/26
  */
 public interface LoginService {

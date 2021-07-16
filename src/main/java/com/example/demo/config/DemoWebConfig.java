@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  *
- * @author 涼月
+ * @author 咲蛍
  * @date 2021/05/26
  */
 @Configuration

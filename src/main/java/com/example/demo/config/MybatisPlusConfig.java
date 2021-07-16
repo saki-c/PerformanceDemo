@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @Author 涼月
+ * @Author 咲蛍
  * @Date 2021/5/31
  * @Description MP分页设置
  */

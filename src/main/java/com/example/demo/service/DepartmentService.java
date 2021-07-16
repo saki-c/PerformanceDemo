@@ -6,7 +6,7 @@ import com.example.demo.dto.QueryDTO;
 import com.example.demo.util.Result;
 
 /**
- * @author 涼月
+ * @author 咲蛍
  * @date 2021/6/26
  */
 public interface DepartmentService {

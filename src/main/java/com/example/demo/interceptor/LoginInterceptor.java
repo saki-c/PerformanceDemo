@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 /**
  *
- * @author 涼月
+ * @author 咲蛍
  * @date 2021/05/17
  */
 public class LoginInterceptor implements HandlerInterceptor {

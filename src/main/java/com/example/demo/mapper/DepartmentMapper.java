@@ -8,7 +8,7 @@ import com.example.demo.entity.User;
 import com.example.demo.vo.DepartmentVO;
 
 /**
- * @author 涼月
+ * @author 咲蛍
  * @date 2021/6/26
  */
 public interface DepartmentMapper extends BaseMapper<Department> {

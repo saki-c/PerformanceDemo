@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
 
 /**
- * @author 涼月
+ * @author 咲蛍
  * @date 2021/05/17
  */
 @TableName(value = "tb_user")
