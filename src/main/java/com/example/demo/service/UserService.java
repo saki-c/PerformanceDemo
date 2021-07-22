@@ -4,6 +4,8 @@ import com.example.demo.dto.PassDTO;
 import com.example.demo.dto.QueryDTO;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.util.Result;
+import org.apache.poi.ss.formula.functions.T;
+
 import java.text.ParseException;
 
 /**
@@ -18,7 +20,7 @@ public interface UserService {
      * @param queryDTO queryDTO
      * @return Result
      */
-    Result selectUserPage(String token,QueryDTO queryDTO);
+    Result<T> selectUserPage(String token, QueryDTO queryDTO);
 
     /**
      * 添加用户
@@ -27,7 +29,7 @@ public interface UserService {
      * @return Result
      * @throws ParseException 编译异常
      */
-    Result addUser(String token,UserDTO userDTO) throws ParseException;
+    Result<T> addUser(String token,UserDTO userDTO) throws ParseException;
 
     /**
      * 业务删除
@@ -35,7 +37,7 @@ public interface UserService {
      * @param token token
      * @return Result
      */
-    Result deleteUser(String token,int userId);
+    Result<T> deleteUser(String token,int userId);
 
     /**
      * 重置密码
@@ -43,7 +45,7 @@ public interface UserService {
      * @param passDTO passDTO
      * @return Result
      */
-    Result updateUser(String token,PassDTO passDTO);
+    Result<T> updateUser(String token,PassDTO passDTO);
 
     /**
      * 修改用户信息
@@ -51,7 +53,7 @@ public interface UserService {
      * @param userDTO userDTO
      * @return Result
      */
-    Result reviseUser(String token,UserDTO userDTO);
+    Result<T> reviseUser(String token,UserDTO userDTO);
 
     /**
      * 重置密码
@@ -59,7 +61,7 @@ public interface UserService {
      * @param userId 用户id
      * @return Result
      */
-    Result resetPassword(String token,Integer userId);
+    Result<T> resetPassword(String token,Integer userId);
 
     /**
      * 提升管理员
@@ -67,7 +69,7 @@ public interface UserService {
      * @param userId 用户id
      * @return Result
      */
-    Result promoteUser(String token,Integer userId);
+    Result<T> promoteUser(String token,Integer userId);
 
     /**
      * 降低为用户
@@ -75,25 +77,25 @@ public interface UserService {
      * @param userId 用户id
      * @return Result
      */
-    Result degradeUser(String token,Integer userId);
+    Result<T> degradeUser(String token,Integer userId);
 
     /**
      * 部门管理员列表
      * @param  token token
      * @return Result
      */
-    Result adminList(String token);
+    Result<T> adminList(String token);
 
     /**
      * 管理员列表
      * @return Result
      */
-    Result allAdminList();
+    Result<T> allAdminList();
 
     /**
      * 获取登陆账号信息
-     * @param token
-     * @return
+     * @param token token
+     * @return Result
      */
-    Result selectUser(String token);
+    Result<T> selectUser(String token);
 }

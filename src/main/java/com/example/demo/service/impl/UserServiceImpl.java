@@ -14,6 +14,7 @@ import com.example.demo.util.JWTUtil;
 import com.example.demo.util.MD5Util;
 import com.example.demo.util.Result;
 import com.example.demo.vo.UserVO;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
@@ -34,6 +35,10 @@ public class UserServiceImpl implements UserService {
     @Resource
     PositionMapper positionMapper;
 
+    String utf = "utf-8";
+
+    String mess = "你有个锤子权限";
+
     @Override
     public Result selectUserPage(String token, QueryDTO queryDTO) {
         Page<UserVO> page = new Page<>(queryDTO.getPageNo(), queryDTO.getPageSize());
@@ -50,22 +55,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result addUser(String token, UserDTO userDTO) throws ParseException {
         if (StringUtils.isEmpty(userDTO.getName())) {
-            return new Result(400, "姓名不能为空");
+            return new Result<T>(400, "姓名不能为空");
         }
         if (StringUtils.isEmpty(userDTO.getNickname())) {
-            return new Result(400, "昵称不能为空");
+            return new Result<T>(400, "昵称不能为空");
         }
         if (StringUtils.isEmpty(userDTO.getJoinDate())) {
-            return new Result(400, "入职时间不能为空");
+            return new Result<T>(400, "入职时间不能为空");
         }
         if (StringUtils.isEmpty(userDTO.getPassword())) {
-            return new Result(400, "密码不能为空");
+            return new Result<T>(400, "密码不能为空");
         }
         if (userMapper.selectByUserNickname(userDTO.getNickname()) != null) {
-            return new Result(400, "已存在此用户");
+            return new Result<T>(400, "已存在此用户");
         }
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result(400, "你有个锤子权限");
+            return new Result<T>(400, mess);
         }
         User user = new User();
         user.setUserName(userDTO.getName());
@@ -77,7 +82,7 @@ public class UserServiceImpl implements UserService {
         user.setUserJoinDate(date);
 
         user.setUserDirectorId(userDTO.getDirectorId());
-        user.setUserPassword(MD5Util.MD5Encode(userDTO.getPassword(), "utf-8"));
+        user.setUserPassword(MD5Util.MD5Encode(userDTO.getPassword(), utf));
         user.setUserStatus("user");
         userMapper.insert(user);
 
@@ -87,77 +92,77 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result deleteUser(String token, int userId) {
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result(400, "你有个锤子权限");
+            return new Result<T>(400, mess);
         }
         User user = new User();
         user.setUserId(userId);
         user.setUserStatus("delete");
         userMapper.updateById(user);
-        return new Result(200, "删除成功");
+        return new Result<T>(200, "删除成功");
     }
 
     @Override
     public Result updateUser(String token, PassDTO passDTO) {
         if (passDTO.getOldPassword().equals(passDTO.getNewPassword())) {
-            return new Result(400, "新密码与原密码一致");
+            return new Result<T>(400, "新密码与原密码一致");
         }
         if (!passDTO.getNewPassword().equals(passDTO.getAgainPassword())) {
-            return new Result(400, "两次密码不一致");
+            return new Result<T>(400, "两次密码不一致");
         }
 
         User user = userMapper.selectById(JWTUtil.verifyToken(token).get("id").asString());
-        if (!user.getUserPassword().equals(MD5Util.MD5Encode(passDTO.getOldPassword(), "utf-8"))) {
-            return new Result(400, "原密码错误");
+        if (!user.getUserPassword().equals(MD5Util.MD5Encode(passDTO.getOldPassword(), utf))) {
+            return new Result<T>(400, "原密码错误");
         }
-        user.setUserPassword(MD5Util.MD5Encode(passDTO.getNewPassword(), "utf-8"));
+        user.setUserPassword(MD5Util.MD5Encode(passDTO.getNewPassword(), utf));
         userMapper.updateById(user);
-        return new Result(401, "密码修改成功,请重新登陆");
+        return new Result<T>(401, "密码修改成功,请重新登陆");
     }
 
     @Override
     public Result reviseUser(String token, UserDTO userDTO) {
         User user = userMapper.selectById(JWTUtil.verifyToken(token).get("id").asString());
-        if (null != userDTO.getNickname() && !"".equals(userDTO.getNickname())){
+        if (null != userDTO.getNickname() && !"".equals(userDTO.getNickname())) {
             user.setUserNickname(userDTO.getNickname());
         }
-        if (null != userDTO.getDirectorId()&&!"".equals(userDTO.getDirectorId())){
+        if (null != userDTO.getDirectorId()) {
             user.setUserDirectorId(userDTO.getDirectorId());
         }
-        if(null != userDTO.getPositionId()&&!"".equals(userDTO.getPositionId())){
+        if (null != userDTO.getPositionId()) {
             user.setUserPositionId(userDTO.getPositionId());
         }
         userMapper.updateById(user);
-        return  new Result(200,"成功");
+        return new Result<T>(200, "成功");
     }
 
     @Override
     public Result resetPassword(String token, Integer userId) {
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result(400, "你有个锤子权限");
+            return new Result<T>(400, mess);
         }
         User user = new User();
-        user.setUserPassword(MD5Util.MD5Encode("zhimarthome", "utf-8"));
+        user.setUserPassword(MD5Util.MD5Encode("zhimarthome", utf));
         user.setUserId(userId);
         userMapper.updateById(user);
-        return new Result(200, "重置成功");
+        return new Result<T>(200, "重置成功");
     }
 
     @Override
     public Result promoteUser(String token, Integer userId) {
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result(400, "你有个锤子权限");
+            return new Result<T>(400, mess);
         }
         User user = new User();
         user.setUserId(userId);
         user.setUserStatus("admin");
         userMapper.updateById(user);
-        return new Result<>(200, "提升成功");
+        return new Result<T>(200, "提升成功");
     }
 
     @Override
     public Result degradeUser(String token, Integer userId) {
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result(400, "你有个锤子权限");
+            return new Result<T>(400, mess);
         }
         User user = new User();
         user.setUserId(userId);
@@ -172,7 +177,7 @@ public class UserServiceImpl implements UserService {
             Position position = positionMapper.selectById(Integer.parseInt(JWTUtil.verifyToken(token).get("position").asString()));
             return new Result<>(200, "", userMapper.selectAdminList(position.getPositionDepartmentId()));
         } catch (NumberFormatException e) {
-            return new Result(400, "不存在");
+            return new Result<T>(400, "不存在");
         }
 
     }

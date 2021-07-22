@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.service.LoginService;
 import com.example.demo.util.Result;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ public class LoginController {
      private LoginService loginService;
 
     @PostMapping(value = "/api/login")
-    public Result login(@RequestBody LoginDTO loginDTO){
+    public Result<T> login(@RequestBody LoginDTO loginDTO){
         return loginService.login(loginDTO);
     }
 }

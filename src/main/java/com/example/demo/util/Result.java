@@ -11,7 +11,7 @@ public class Result<T> implements Serializable {
     private static final long serialVersionUID = 1L;
     private int resultCode;
     private String message;
-    private T data;
+    private transient T data;
 
     public Result() {
     }

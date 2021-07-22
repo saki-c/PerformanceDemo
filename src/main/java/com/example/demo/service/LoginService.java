@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.util.Result;
+import org.apache.poi.ss.formula.functions.T;
+
 /**
  *
  * @author 咲蛍
@@ -13,5 +15,5 @@ public interface LoginService {
      * @param loginDTO loginDTO
      * @return Result
      */
-    Result login(LoginDTO loginDTO);
+    Result<T> login(LoginDTO loginDTO);
 }

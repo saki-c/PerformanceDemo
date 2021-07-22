@@ -15,6 +15,7 @@ import com.example.demo.service.DepartmentService;
 import com.example.demo.util.JWTUtil;
 import com.example.demo.util.Result;
 import com.example.demo.vo.DepartmentVO;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
@@ -36,6 +37,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Resource
     private PositionMapper positionMapper;
 
+    String exist = "exist";
+
+    String positionStatus = "position_status";
+
     @Override
     public Result selectDepartmentPage(QueryDTO queryDTO) {
         Page<DepartmentVO> page = new Page<>(queryDTO.getPageNo(), queryDTO.getPageSize());
@@ -45,32 +50,32 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Result addDepartment(String token, DepartmentDTO departmentDTO) {
         if (StringUtils.isEmpty(departmentDTO.getName())) {
-            return new Result(400, "部门名称不能为空");
+            return new Result<T>(400, "部门名称不能为空");
         }
         if (null == departmentDTO.getManagerId()) {
-            return new Result(400, "部门主管不能为空");
+            return new Result<T>(400, "部门主管不能为空");
         }
         if (isSuperAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result(400, "权限不足");
+            return new Result<T>(400, "权限不足");
         }
         if (null != departmentMapper.selectByDepartmentName(departmentDTO.getName())) {
-            return new Result(400, "已存在此部门");
+            return new Result<T>(400, "已存在此部门");
         }
 
         User user = userMapper.selectById(departmentDTO.getManagerId());
         if (null == user) {
-            return new Result(400, "不存在此用户");
+            return new Result<T>(400, "不存在此用户");
         }
         if (!"admin".equals(user.getUserStatus())) {
-            return new Result(400, "此用户权限不足");
+            return new Result<T>(400, "此用户权限不足");
         }
 
         QueryWrapper<Department> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("department_manager_id", departmentDTO.getManagerId());
-        queryWrapper.eq("department_status", "exist");
+        queryWrapper.eq("department_status", exist);
         Department department = departmentMapper.selectOne(queryWrapper);
         if (null != department) {
-            return new Result(400, "此人已经是其他部门主管了");
+            return new Result<T>(400, "此人已经是其他部门主管了");
         }
 
         Department department1 = new Department();
@@ -89,14 +94,14 @@ public class DepartmentServiceImpl implements DepartmentService {
         user.setUserPositionId(positionId);
         userMapper.updateById(user);
 
-        return new Result(200, "添加成功");
+        return new Result<T>(200, "添加成功");
     }
 
     @Override
     public Result selectPosition(Integer departmentId) {
         QueryWrapper<Position> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("position_department_id", departmentId);
-        queryWrapper.eq("position_status", "exist");
+        queryWrapper.eq(positionStatus, exist);
         List<Position> list = positionMapper.selectList(queryWrapper);
         return new Result<>(200, "", list);
     }
@@ -104,32 +109,32 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Result deleteDepartment(String token, Integer departmentId) {
         if (isSuperAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result(400, "权限不足");
+            return new Result<T>(400, "权限不足");
         }
         Department department = new Department();
         department.setDepartmentId(departmentId);
         department.setDepartmentStatus("delete");
         departmentMapper.updateById(department);
-        return new Result(200, "删除成功");
+        return new Result<T>(200, "删除成功");
     }
 
     @Override
     public Result addPosition(String token, PositionDTO positionDTO) {
         if (StringUtils.isEmpty(positionDTO.getName())) {
-            return new Result(400, "岗位名称不能为空");
+            return new Result<T>(400, "岗位名称不能为空");
         }
         if (null == positionDTO.getDepartmentId()) {
-            return new Result(400, "所属部门不能为空");
+            return new Result<T>(400, "所属部门不能为空");
         }
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result(400, "权限不足");
+            return new Result<T>(400, "权限不足");
         }
         QueryWrapper<Position> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("position_name", positionDTO.getName());
         queryWrapper.eq("position_department_id", positionDTO.getDepartmentId());
-        queryWrapper.eq("position_status", "exist");
+        queryWrapper.eq(positionStatus, exist);
         if (null != positionMapper.selectOne(queryWrapper)) {
-            return new Result(400, "该部门已存在此岗位");
+            return new Result<T>(400, "该部门已存在此岗位");
         }
         Position position = new Position();
         position.setPositionName(positionDTO.getName());
@@ -141,19 +146,19 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Result deletePosition(String token, Integer positionId) {
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result(400, "权限不足");
+            return new Result<T>(400, "权限不足");
         }
         Position position = new Position();
         position.setPositionId(positionId);
         position.setPositionStatus("delete");
         positionMapper.updateById(position);
-        return new Result(200, "删除成功");
+        return new Result<T>(200, "删除成功");
     }
 
     @Override
     public Result positionList() {
         QueryWrapper<Position> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("position_status", "exist");
+        queryWrapper.eq(positionStatus, exist);
         List<Position> list = positionMapper.selectList(queryWrapper);
         return new Result<>(200, "", list);
     }

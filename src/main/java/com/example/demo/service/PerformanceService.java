@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.*;
 import com.example.demo.util.Result;
+import org.apache.poi.ss.formula.functions.T;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public interface PerformanceService {
      * @return Result
      * @throws ParseException 报错
      */
-    Result addPerformance(String token,PerformanceDTO performanceDTO) throws ParseException;
+    Result<T> addPerformance(String token, PerformanceDTO performanceDTO) throws ParseException;
 
     /**
      * 分页查询
@@ -28,7 +29,7 @@ public interface PerformanceService {
      * @param queryDTO 分页DTO
      * @return Result
      */
-    Result selectPerformancePage(String token,QueryDTO queryDTO);
+    Result<T> selectPerformancePage(String token,QueryDTO queryDTO);
 
     /**
      * 下载excel
@@ -42,7 +43,7 @@ public interface PerformanceService {
      * @param performanceId 绩效id
      * @return Result
      */
-    Result selectPerformanceItemPage(Integer performanceId);
+    Result<T> selectPerformanceItemPage(Integer performanceId);
 
     /**
      * 单条修改
@@ -50,7 +51,7 @@ public interface PerformanceService {
      * @param itemDTO 单挑DTO
      * @return Result
      */
-    Result updatePerformanceItem(String token, ItemDTO itemDTO);
+    Result<T> updatePerformanceItem(String token, ItemDTO itemDTO);
 
     /**
      * 提交绩效
@@ -58,7 +59,7 @@ public interface PerformanceService {
      * @param performanceId 绩效id
      * @return Result
      */
-    Result submitPerformance(String token,Integer performanceId);
+    Result<T> submitPerformance(String token,Integer performanceId);
 
     /**
      * 保存评分
@@ -66,7 +67,7 @@ public interface PerformanceService {
      * @param performanceId 绩效id
      * @return Result
      */
-    Result gradePerformance(String token,Integer performanceId);
+    Result<T> gradePerformance(String token,Integer performanceId);
 
     /**
      * 添加总结
@@ -74,6 +75,6 @@ public interface PerformanceService {
      * @param summaryDTO 总结DTO
      * @return Result
      */
-    Result addSummary(String token, SummaryDTO summaryDTO);
+    Result<T> addSummary(String token, SummaryDTO summaryDTO);
 
 }

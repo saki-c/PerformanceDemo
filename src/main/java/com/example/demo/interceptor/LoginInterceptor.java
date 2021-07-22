@@ -5,6 +5,7 @@ import com.example.demo.util.HttpContextUtil;
 import com.example.demo.util.JWTUtil;
 import com.example.demo.util.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,13 +39,6 @@ public class LoginInterceptor implements HandlerInterceptor {
         return true;
     }
 
-
-
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-
-    }
-
     /**
      *
      * @param response response
@@ -53,13 +47,13 @@ public class LoginInterceptor implements HandlerInterceptor {
      * @throws IOException IO异常
      */
     private static void setReturn(HttpServletResponse response, Integer code, String msg) throws IOException {
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        HttpServletResponse httpResponse = response;
         httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
         httpResponse.setHeader("Access-Control-Allow-Origin", HttpContextUtil.getOrigin());
         //UTF-8编码
         httpResponse.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=utf-8");
-        Result result = new Result<>(code,msg,"");
+        Result<T> result = new Result<>(code,msg);
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(result);
         httpResponse.getWriter().print(json);

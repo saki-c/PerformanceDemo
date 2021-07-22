@@ -1,7 +1,5 @@
 package com.example.demo.vo;
 
-import com.example.demo.entity.Department;
-import com.example.demo.entity.Position;
 import com.example.demo.entity.User;
 
 import java.io.Serializable;
@@ -12,7 +10,7 @@ import java.io.Serializable;
  */
 public class LoginVO implements Serializable {
     private String token;
-    private User user;
+    private transient User user;
 
     public String getToken() {
         return token;

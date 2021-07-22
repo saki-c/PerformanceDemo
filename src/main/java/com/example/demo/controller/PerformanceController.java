@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.*;
 import com.example.demo.service.PerformanceService;
 import com.example.demo.util.Result;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,8 @@ public class PerformanceController {
     @Resource
     private PerformanceService performanceService;
 
+    String t = "token";
+
     /**
      * 添加绩效
      * @param performanceDTO performanceDTO
@@ -30,8 +33,8 @@ public class PerformanceController {
      * @throws ParseException 编译异常
      */
     @PostMapping("/api/performance/add")
-    public Result performanceAdd(HttpServletRequest request, @RequestBody PerformanceDTO performanceDTO) throws ParseException {
-        String token = request.getHeader("token");
+    public Result<T> performanceAdd(HttpServletRequest request, @RequestBody PerformanceDTO performanceDTO) throws ParseException {
+        String token = request.getHeader(t);
         return performanceService.addPerformance(token, performanceDTO);
     }
 
@@ -41,8 +44,8 @@ public class PerformanceController {
      * @return Result
      */
     @PostMapping("/api/performance/list")
-    public Result performanceList(HttpServletRequest request, @RequestBody QueryDTO queryDTO) {
-        String token = request.getHeader("token");
+    public Result<T> performanceList(HttpServletRequest request, @RequestBody QueryDTO queryDTO) {
+        String token = request.getHeader(t);
         return performanceService.selectPerformancePage(token, queryDTO);
     }
 
@@ -62,7 +65,7 @@ public class PerformanceController {
      * @return Result
      */
     @PostMapping("/api/performance/item/list")
-    public Result performanceItemList(Integer performanceId) {
+    public Result<T> performanceItemList(Integer performanceId) {
         return performanceService.selectPerformanceItemPage(performanceId);
     }
 
@@ -73,8 +76,8 @@ public class PerformanceController {
      * @return Result
      */
     @PostMapping("/api/performance/update")
-    public Result performanceItemEdit(HttpServletRequest request, @RequestBody ItemDTO itemDTO) {
-        String token = request.getHeader("token");
+    public Result<T> performanceItemEdit(HttpServletRequest request, @RequestBody ItemDTO itemDTO) {
+        String token = request.getHeader(t);
         return performanceService.updatePerformanceItem(token, itemDTO);
     }
 
@@ -85,8 +88,8 @@ public class PerformanceController {
      * @return Result
      */
     @PostMapping("/api/performance/submit")
-    public Result performanceSubmit(HttpServletRequest request,Integer performanceId){
-        String token = request.getHeader("token");
+    public Result<T> performanceSubmit(HttpServletRequest request,Integer performanceId){
+        String token = request.getHeader(t);
         return performanceService.submitPerformance(token,performanceId);
     }
 
@@ -97,8 +100,8 @@ public class PerformanceController {
      * @return Result
      */
     @PostMapping("/api/performance/grade")
-    public Result performanceGrade(HttpServletRequest request,Integer performanceId){
-        String token = request.getHeader("token");
+    public Result<T> performanceGrade(HttpServletRequest request,Integer performanceId){
+        String token = request.getHeader(t);
         return performanceService.gradePerformance(token,performanceId);
     }
 
@@ -109,8 +112,8 @@ public class PerformanceController {
      * @return Result
      */
     @PostMapping("/api/performance/summary")
-    public  Result summaryAdd(HttpServletRequest request, @RequestBody SummaryDTO summaryDTO){
-        String token = request.getHeader("token");
+    public  Result<T> summaryAdd(HttpServletRequest request, @RequestBody SummaryDTO summaryDTO){
+        String token = request.getHeader(t);
         return performanceService.addSummary(token,summaryDTO);
     }
 }

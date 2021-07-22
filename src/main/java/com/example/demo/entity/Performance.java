@@ -20,9 +20,6 @@ public class Performance {
     private String performanceEvaluation;
     private String performanceStatus;
 
-    public Performance() {
-    }
-
     public Integer getPerformanceId() {
         return performanceId;
     }

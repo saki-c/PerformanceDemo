@@ -5,6 +5,7 @@ import com.example.demo.dto.QueryDTO;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.service.UserService;
 import com.example.demo.util.Result;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,8 @@ public class UserController {
     @Resource
      private UserService userService;
 
+    String t = "token";
+
     /**
      * 添加用户
      * @param userDTO userDTO
@@ -28,8 +31,8 @@ public class UserController {
      * @throws ParseException 编译异常
      */
     @PostMapping("/api/user/add")
-    public Result addUser(HttpServletRequest request, @RequestBody UserDTO userDTO) throws ParseException {
-        String token = request.getHeader("token");
+    public Result<T> addUser(HttpServletRequest request, @RequestBody UserDTO userDTO) throws ParseException {
+        String token = request.getHeader(t);
         return userService.addUser(token,userDTO);
     }
 
@@ -40,8 +43,8 @@ public class UserController {
      * @return Result
      */
     @PostMapping("/api/user/list")
-    public Result userList(HttpServletRequest request, @RequestBody QueryDTO queryDTO) {
-        String token = request.getHeader("token");
+    public Result<T> userList(HttpServletRequest request, @RequestBody QueryDTO queryDTO) {
+        String token = request.getHeader(t);
         return userService.selectUserPage(token,queryDTO);
     }
 
@@ -52,8 +55,8 @@ public class UserController {
      * @return Result
      */
     @PostMapping("/api/user/delete")
-    public Result deleteUser(HttpServletRequest request, Integer userId) {
-        String token = request.getHeader("token");
+    public Result<T> deleteUser(HttpServletRequest request, Integer userId) {
+        String token = request.getHeader(t);
         return userService.deleteUser(token,userId);
     }
 
@@ -64,8 +67,8 @@ public class UserController {
      * @return Result
      */
     @PostMapping("/api/user/update")
-    public Result updateUser(HttpServletRequest request, @RequestBody PassDTO passDTO) {
-        String token = request.getHeader("token");
+    public Result<T> updateUser(HttpServletRequest request, @RequestBody PassDTO passDTO) {
+        String token = request.getHeader(t);
         return userService.updateUser(token,passDTO);
 
     }
@@ -77,8 +80,8 @@ public class UserController {
      * @return Result
      */
     @PostMapping("/api/user/revise")
-    public Result reviseUser(HttpServletRequest request, @RequestBody UserDTO userDTO) {
-        String token = request.getHeader("token");
+    public Result<T> reviseUser(HttpServletRequest request, @RequestBody UserDTO userDTO) {
+        String token = request.getHeader(t);
         return userService.reviseUser(token,userDTO);
     }
 
@@ -89,8 +92,8 @@ public class UserController {
      * @return passDTO
      */
     @PostMapping("/api/user/reset")
-    public Result resetPassword(HttpServletRequest request, Integer userId) {
-        String token = request.getHeader("token");
+    public Result<T> resetPassword(HttpServletRequest request, Integer userId) {
+        String token = request.getHeader(t);
         return userService.resetPassword(token,userId);
     }
 
@@ -100,8 +103,8 @@ public class UserController {
      * @return Result
      */
     @PostMapping("/api/user/promote")
-    public Result promoteUser(HttpServletRequest request, Integer userId) {
-        String token = request.getHeader("token");
+    public Result<T> promoteUser(HttpServletRequest request, Integer userId) {
+        String token = request.getHeader(t);
         return userService.promoteUser(token,userId);
     }
 
@@ -111,8 +114,8 @@ public class UserController {
      * @return Result
      */
     @PostMapping("/api/user/degrade")
-    public Result degradeUser(HttpServletRequest request, Integer userId) {
-        String token = request.getHeader("token");
+    public Result<T> degradeUser(HttpServletRequest request, Integer userId) {
+        String token = request.getHeader(t);
         return userService.degradeUser(token,userId);
     }
 
@@ -121,8 +124,8 @@ public class UserController {
      * @return Result
      */
     @GetMapping("/api/user/admin")
-    public Result adminList(HttpServletRequest request){
-        String token = request.getHeader("token");
+    public Result<T> adminList(HttpServletRequest request){
+        String token = request.getHeader(t);
         return userService.adminList(token);
     }
 
@@ -132,8 +135,8 @@ public class UserController {
      * @return
      */
     @GetMapping("/api/user/account")
-    public Result selectUser(HttpServletRequest request){
-        String token = request.getHeader("token");
+    public Result<T> selectUser(HttpServletRequest request){
+        String token = request.getHeader(t);
         return userService.selectUser(token);
     }
 
@@ -142,7 +145,7 @@ public class UserController {
      * @return Result
      */
     @GetMapping("/api/user/alladmin")
-    public Result allAdminList(){
+    public Result<T> allAdminList(){
         return userService.allAdminList();
     }
 }
