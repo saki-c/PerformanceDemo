@@ -63,7 +63,7 @@ public class PerformanceServiceImpl implements PerformanceService {
         if (StringUtils.isEmpty(performanceDTO.getTerm())) {
             return new Result<T>(400, "考核周期不能为空");
         }
-        List<Domains> list = performanceDTO.getDomains();
+        List<DomainsDTO> list = performanceDTO.getDomainsDTO();
         if (list.size() < 3) {
             return new Result<T>(400, "你这绩效也太短了吧");
         }
@@ -71,7 +71,7 @@ public class PerformanceServiceImpl implements PerformanceService {
             return new Result<T>(400, "你这绩效细分太多了吧");
         }
         int weight = 0;
-        for (Domains value : list) {
+        for (DomainsDTO value : list) {
             if (Integer.parseInt(value.getWeight()) <= 0) {
                 return new Result<T>(400, "权重不得小于0");
             }
@@ -101,11 +101,11 @@ public class PerformanceServiceImpl implements PerformanceService {
         performanceMapper.insert(performance);
         int performanceId = performance.getPerformanceId();
         PerformanceItem performanceItem = new PerformanceItem();
-        for (Domains domains : list) {
+        for (DomainsDTO domainsDTO : list) {
             performanceItem.setPerformanceItemPerformanceId(performanceId);
-            performanceItem.setPerformanceItemDemand(domains.getDemand());
-            performanceItem.setPerformanceItemWeight(Integer.parseInt(domains.getWeight()));
-            performanceItem.setPerformanceItemStandard(domains.getStandard());
+            performanceItem.setPerformanceItemDemand(domainsDTO.getDemand());
+            performanceItem.setPerformanceItemWeight(Integer.parseInt(domainsDTO.getWeight()));
+            performanceItem.setPerformanceItemStandard(domainsDTO.getStandard());
             performanceItemMapper.insert(performanceItem);
         }
         return new Result<>(200, "", performanceDTO);

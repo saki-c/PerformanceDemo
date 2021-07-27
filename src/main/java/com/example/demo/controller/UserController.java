@@ -22,7 +22,7 @@ public class UserController {
     @Resource
      private UserService userService;
 
-    String t = "token";
+    private static final String TOKEN = "token";
 
     /**
      * 添加用户
@@ -32,7 +32,7 @@ public class UserController {
      */
     @PostMapping("/api/user/add")
     public Result<T> addUser(HttpServletRequest request, @RequestBody UserDTO userDTO) throws ParseException {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return userService.addUser(token,userDTO);
     }
 
@@ -44,7 +44,7 @@ public class UserController {
      */
     @PostMapping("/api/user/list")
     public Result<T> userList(HttpServletRequest request, @RequestBody QueryDTO queryDTO) {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return userService.selectUserPage(token,queryDTO);
     }
 
@@ -56,7 +56,7 @@ public class UserController {
      */
     @PostMapping("/api/user/delete")
     public Result<T> deleteUser(HttpServletRequest request, Integer userId) {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return userService.deleteUser(token,userId);
     }
 
@@ -68,7 +68,7 @@ public class UserController {
      */
     @PostMapping("/api/user/update")
     public Result<T> updateUser(HttpServletRequest request, @RequestBody PassDTO passDTO) {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return userService.updateUser(token,passDTO);
 
     }
@@ -81,7 +81,7 @@ public class UserController {
      */
     @PostMapping("/api/user/revise")
     public Result<T> reviseUser(HttpServletRequest request, @RequestBody UserDTO userDTO) {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return userService.reviseUser(token,userDTO);
     }
 
@@ -93,7 +93,7 @@ public class UserController {
      */
     @PostMapping("/api/user/reset")
     public Result<T> resetPassword(HttpServletRequest request, Integer userId) {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return userService.resetPassword(token,userId);
     }
 
@@ -104,7 +104,7 @@ public class UserController {
      */
     @PostMapping("/api/user/promote")
     public Result<T> promoteUser(HttpServletRequest request, Integer userId) {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return userService.promoteUser(token,userId);
     }
 
@@ -115,7 +115,7 @@ public class UserController {
      */
     @PostMapping("/api/user/degrade")
     public Result<T> degradeUser(HttpServletRequest request, Integer userId) {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return userService.degradeUser(token,userId);
     }
 
@@ -125,7 +125,7 @@ public class UserController {
      */
     @GetMapping("/api/user/admin")
     public Result<T> adminList(HttpServletRequest request){
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return userService.adminList(token);
     }
 
@@ -136,7 +136,7 @@ public class UserController {
      */
     @GetMapping("/api/user/account")
     public Result<T> selectUser(HttpServletRequest request){
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return userService.selectUser(token);
     }
 

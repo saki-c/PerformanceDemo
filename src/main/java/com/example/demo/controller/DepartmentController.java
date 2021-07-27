@@ -23,7 +23,7 @@ public class DepartmentController {
     @Resource
     private DepartmentService departmentService;
 
-    String t = "token";
+    private static final String TOKEN = "token";
 
     @PostMapping("api/department/list")
     public Result<T> departmentList(@RequestBody QueryDTO queryDTO) {
@@ -32,7 +32,7 @@ public class DepartmentController {
 
     @PostMapping("api/department/add")
     public Result<T> addDepartment(HttpServletRequest request, @RequestBody DepartmentDTO departmentDTO) {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return departmentService.addDepartment(token, departmentDTO);
     }
 
@@ -43,19 +43,19 @@ public class DepartmentController {
 
     @PostMapping("/api/department/delete")
     public Result<T> deleteDepartment(HttpServletRequest request, Integer departmentId) {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return departmentService.deleteDepartment(token, departmentId);
     }
 
     @PostMapping("/api/department/position/add")
     public Result<T> addPosition(HttpServletRequest request, @RequestBody PositionDTO positionDTO) {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return departmentService.addPosition(token,positionDTO);
     }
 
     @PostMapping("/api/department/position/delete")
     public Result<T> deletePosition(HttpServletRequest request, Integer positionId){
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return departmentService.deletePosition(token, positionId);
     }
 

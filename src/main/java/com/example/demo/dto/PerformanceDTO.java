@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class PerformanceDTO {
     private String term;
-    private List<Domains> domains;
+    private List<DomainsDTO> domainsDTO;
 
     public void setTerm(String term) {
         this.term = term;
@@ -17,18 +17,19 @@ public class PerformanceDTO {
         return term;
     }
 
-    public void setDomains(List<Domains> domains) {
-        this.domains = domains;
+    public List<DomainsDTO> getDomainsDTO() {
+        return domainsDTO;
     }
-    public List<Domains> getDomains() {
-        return domains;
+
+    public void setDomainsDTO(List<DomainsDTO> domainsDTO) {
+        this.domainsDTO = domainsDTO;
     }
 
     @Override
     public String toString() {
         return "PerformanceDTO{" +
-                ", term='" + term + '\'' +
-                ", domains=" + domains +
+                "term='" + term + '\'' +
+                ", domainsDTO=" + domainsDTO +
                 '}';
     }
 }

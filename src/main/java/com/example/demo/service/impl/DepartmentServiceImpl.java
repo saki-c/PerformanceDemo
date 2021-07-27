@@ -37,9 +37,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Resource
     private PositionMapper positionMapper;
 
-    String exist = "exist";
+    private static final String EXIST = "exist";
 
-    String positionStatus = "position_status";
+    private static final String POSITION_STATUS = "position_status";
 
     @Override
     public Result selectDepartmentPage(QueryDTO queryDTO) {
@@ -72,7 +72,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         QueryWrapper<Department> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("department_manager_id", departmentDTO.getManagerId());
-        queryWrapper.eq("department_status", exist);
+        queryWrapper.eq("department_status", EXIST);
         Department department = departmentMapper.selectOne(queryWrapper);
         if (null != department) {
             return new Result<T>(400, "此人已经是其他部门主管了");
@@ -101,7 +101,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Result selectPosition(Integer departmentId) {
         QueryWrapper<Position> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("position_department_id", departmentId);
-        queryWrapper.eq(positionStatus, exist);
+        queryWrapper.eq(POSITION_STATUS, EXIST);
         List<Position> list = positionMapper.selectList(queryWrapper);
         return new Result<>(200, "", list);
     }
@@ -132,7 +132,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         QueryWrapper<Position> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("position_name", positionDTO.getName());
         queryWrapper.eq("position_department_id", positionDTO.getDepartmentId());
-        queryWrapper.eq(positionStatus, exist);
+        queryWrapper.eq(POSITION_STATUS, EXIST);
         if (null != positionMapper.selectOne(queryWrapper)) {
             return new Result<T>(400, "该部门已存在此岗位");
         }
@@ -158,7 +158,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Result positionList() {
         QueryWrapper<Position> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(positionStatus, exist);
+        queryWrapper.eq(POSITION_STATUS, EXIST);
         List<Position> list = positionMapper.selectList(queryWrapper);
         return new Result<>(200, "", list);
     }

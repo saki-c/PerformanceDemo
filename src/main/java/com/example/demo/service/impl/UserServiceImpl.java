@@ -35,9 +35,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     PositionMapper positionMapper;
 
-    String utf = "utf-8";
+    private static final String UTF = "utf-8";
 
-    String mess = "你有个锤子权限";
+    private static final String MESS = "你有个锤子权限";
 
     @Override
     public Result selectUserPage(String token, QueryDTO queryDTO) {
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
             return new Result<T>(400, "已存在此用户");
         }
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result<T>(400, mess);
+            return new Result<T>(400, MESS);
         }
         User user = new User();
         user.setUserName(userDTO.getName());
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         user.setUserJoinDate(date);
 
         user.setUserDirectorId(userDTO.getDirectorId());
-        user.setUserPassword(MD5Util.MD5Encode(userDTO.getPassword(), utf));
+        user.setUserPassword(MD5Util.MD5Encode(userDTO.getPassword(), UTF));
         user.setUserStatus("user");
         userMapper.insert(user);
 
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result deleteUser(String token, int userId) {
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result<T>(400, mess);
+            return new Result<T>(400, MESS);
         }
         User user = new User();
         user.setUserId(userId);
@@ -111,10 +111,10 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userMapper.selectById(JWTUtil.verifyToken(token).get("id").asString());
-        if (!user.getUserPassword().equals(MD5Util.MD5Encode(passDTO.getOldPassword(), utf))) {
+        if (!user.getUserPassword().equals(MD5Util.MD5Encode(passDTO.getOldPassword(), UTF))) {
             return new Result<T>(400, "原密码错误");
         }
-        user.setUserPassword(MD5Util.MD5Encode(passDTO.getNewPassword(), utf));
+        user.setUserPassword(MD5Util.MD5Encode(passDTO.getNewPassword(), UTF));
         userMapper.updateById(user);
         return new Result<T>(401, "密码修改成功,请重新登陆");
     }
@@ -138,10 +138,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result resetPassword(String token, Integer userId) {
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result<T>(400, mess);
+            return new Result<T>(400, MESS);
         }
         User user = new User();
-        user.setUserPassword(MD5Util.MD5Encode("zhimarthome", utf));
+        user.setUserPassword(MD5Util.MD5Encode("zhimarthome", UTF));
         user.setUserId(userId);
         userMapper.updateById(user);
         return new Result<T>(200, "重置成功");
@@ -150,7 +150,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result promoteUser(String token, Integer userId) {
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result<T>(400, mess);
+            return new Result<T>(400, MESS);
         }
         User user = new User();
         user.setUserId(userId);
@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result degradeUser(String token, Integer userId) {
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
-            return new Result<T>(400, mess);
+            return new Result<T>(400, MESS);
         }
         User user = new User();
         user.setUserId(userId);

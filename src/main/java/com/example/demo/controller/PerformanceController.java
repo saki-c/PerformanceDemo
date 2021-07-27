@@ -24,7 +24,7 @@ public class PerformanceController {
     @Resource
     private PerformanceService performanceService;
 
-    String t = "token";
+    private static final String TOKEN = "token";
 
     /**
      * 添加绩效
@@ -34,7 +34,7 @@ public class PerformanceController {
      */
     @PostMapping("/api/performance/add")
     public Result<T> performanceAdd(HttpServletRequest request, @RequestBody PerformanceDTO performanceDTO) throws ParseException {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return performanceService.addPerformance(token, performanceDTO);
     }
 
@@ -45,7 +45,7 @@ public class PerformanceController {
      */
     @PostMapping("/api/performance/list")
     public Result<T> performanceList(HttpServletRequest request, @RequestBody QueryDTO queryDTO) {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return performanceService.selectPerformancePage(token, queryDTO);
     }
 
@@ -77,7 +77,7 @@ public class PerformanceController {
      */
     @PostMapping("/api/performance/update")
     public Result<T> performanceItemEdit(HttpServletRequest request, @RequestBody ItemDTO itemDTO) {
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return performanceService.updatePerformanceItem(token, itemDTO);
     }
 
@@ -89,7 +89,7 @@ public class PerformanceController {
      */
     @PostMapping("/api/performance/submit")
     public Result<T> performanceSubmit(HttpServletRequest request,Integer performanceId){
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return performanceService.submitPerformance(token,performanceId);
     }
 
@@ -101,7 +101,7 @@ public class PerformanceController {
      */
     @PostMapping("/api/performance/grade")
     public Result<T> performanceGrade(HttpServletRequest request,Integer performanceId){
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return performanceService.gradePerformance(token,performanceId);
     }
 
@@ -113,7 +113,7 @@ public class PerformanceController {
      */
     @PostMapping("/api/performance/summary")
     public  Result<T> summaryAdd(HttpServletRequest request, @RequestBody SummaryDTO summaryDTO){
-        String token = request.getHeader(t);
+        String token = request.getHeader(TOKEN);
         return performanceService.addSummary(token,summaryDTO);
     }
 }
