@@ -44,19 +44,19 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Resource
     PositionMapper positionMapper;
 
-    String summarized = "summarized";
+    private static final String SUMMARIZED = "summarized";
 
-    String mess = "无权限进行修改";
+    private static final String MESS = "无权限进行修改";
 
-    String submited = "submited";
+    private static final String SUBMITED = "submited";
 
-    String directorgraded = "directorgraded";
+    private static final String DIRECTORGRADED = "directorgraded";
 
-    String managergraded = "managergraded";
+    private static final String MANAGERGRADED = "managergraded";
 
-    String saved = "saved";
+    private static final String SAVED = "saved";
 
-    String performanceItemPerformanceId = "performance_item_performance_id";
+    private static final String PERFORMANCE_ITEM_PERFORMANCE_ID = "performance_item_performance_id";
 
     @Override
     public Result addPerformance(String token, PerformanceDTO performanceDTO) throws ParseException {
@@ -97,7 +97,7 @@ public class PerformanceServiceImpl implements PerformanceService {
         Performance performance = new Performance();
         performance.setPerformanceTerm(date);
         performance.setPerformanceUserId(1);
-        performance.setPerformanceStatus(saved);
+        performance.setPerformanceStatus(SAVED);
         performanceMapper.insert(performance);
         int performanceId = performance.getPerformanceId();
         PerformanceItem performanceItem = new PerformanceItem();
@@ -136,7 +136,7 @@ public class PerformanceServiceImpl implements PerformanceService {
         Performance performance = performanceMapper.selectById(downloadDTO.getPerformanceId());
 
         QueryWrapper<PerformanceItem> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(performanceItemPerformanceId, downloadDTO.getPerformanceId());
+        queryWrapper.eq(PERFORMANCE_ITEM_PERFORMANCE_ID, downloadDTO.getPerformanceId());
         List<PerformanceItem> list = performanceItemMapper.selectList(queryWrapper);
 
         if (list.size() == 3) {
@@ -270,7 +270,7 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Override
     public Result selectPerformanceItemPage(Integer performanceId) {
         QueryWrapper<PerformanceItem> wrapper = new QueryWrapper<>();
-        wrapper.eq(performanceItemPerformanceId, performanceId);
+        wrapper.eq(PERFORMANCE_ITEM_PERFORMANCE_ID, performanceId);
         List<PerformanceItem> list = performanceItemMapper.selectList(wrapper);
         return new Result<>(200, "", list);
     }
@@ -286,38 +286,38 @@ public class PerformanceServiceImpl implements PerformanceService {
 
         User user1 = userMapper.selectById(performance.getPerformanceUserId());
 
-        if (summarized.equals(performance.getPerformanceStatus())) {
+        if (SUMMARIZED.equals(performance.getPerformanceStatus())) {
             return new Result<T>(400, "此绩效已无法修改");
         }
         if (user.getUserId().equals(performance.getPerformanceUserId())) {
-            if (saved.equals(performance.getPerformanceStatus())) {
+            if (SAVED.equals(performance.getPerformanceStatus())) {
                 performanceItem.setPerformanceItemDemand(itemDTO.getPerformanceItemDemand());
                 performanceItem.setPerformanceItemStandard(itemDTO.getPerformanceItemStandard());
                 performanceItem.setPerformanceItemSituation(itemDTO.getPerformanceItemSituation());
                 performanceItemMapper.updateById(performanceItem);
                 return new Result<T>(200, "修改成功");
             }
-            return new Result<T>(400, mess);
+            return new Result<T>(400, MESS);
         }
         if (user.getUserId().equals(user1.getUserDirectorId())) {
-            if (submited.equals(performance.getPerformanceStatus())) {
+            if (SUBMITED.equals(performance.getPerformanceStatus())) {
                 performanceItem.setPerformanceItemDirectorGrade(Integer.parseInt(itemDTO.getPerformanceItemDirectorGrade()));
                 performanceItemMapper.updateById(performanceItem);
                 return new Result<T>(200, "修改成功");
             }
-            return new Result<T>(400, mess);
+            return new Result<T>(400, MESS);
         }
 
         Position position = positionMapper.selectById(user1.getUserPositionId());
         Department department = departmentMapper.selectById(position.getPositionDepartmentId());
 
         if (user.getUserId().equals(department.getDepartmentManagerId())) {
-            if (directorgraded.equals(performance.getPerformanceStatus())) {
+            if (DIRECTORGRADED.equals(performance.getPerformanceStatus())) {
                 performanceItem.setPerformanceItemDepartmentManagerGrade(Integer.parseInt(itemDTO.getPerformanceItemDepartmentManagerGrade()));
                 performanceItemMapper.updateById(performanceItem);
                 return new Result<T>(200, "修改成功");
             }
-            return new Result<T>(400, mess);
+            return new Result<T>(400, MESS);
         }
         return new Result<T>(400, "还没轮到你呢");
 
@@ -327,14 +327,14 @@ public class PerformanceServiceImpl implements PerformanceService {
     public Result submitPerformance(String token, Integer performanceId) {
         User user = userMapper.selectById(JWTUtil.verifyToken(token).get("id").asString());
         Performance performance = performanceMapper.selectById(performanceId);
-        if (!saved.equals(performance.getPerformanceStatus())) {
+        if (!SAVED.equals(performance.getPerformanceStatus())) {
             return new Result<T>(400, "请勿重复提交");
         }
         if (!user.getUserId().equals(performance.getPerformanceUserId())) {
             return new Result<T>(400, "非本人提交");
         }
         QueryWrapper<PerformanceItem> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(performanceItemPerformanceId, performance.getPerformanceId());
+        queryWrapper.eq(PERFORMANCE_ITEM_PERFORMANCE_ID, performance.getPerformanceId());
         List<PerformanceItem> list = performanceItemMapper.selectList(queryWrapper);
         for (PerformanceItem performanceItem : list) {
             if (null == performanceItem.getPerformanceItemDemand() || "".equals(performanceItem.getPerformanceItemDemand())) {
@@ -348,8 +348,8 @@ public class PerformanceServiceImpl implements PerformanceService {
             }
 
         }
-        if (saved.equals(performance.getPerformanceStatus()) && user.getUserId().equals(performance.getPerformanceUserId())) {
-            performance.setPerformanceStatus(submited);
+        if (SAVED.equals(performance.getPerformanceStatus()) && user.getUserId().equals(performance.getPerformanceUserId())) {
+            performance.setPerformanceStatus(SUBMITED);
             return new Result<>(200, "提交成功", performanceMapper.updateById(performance));
         }
         return new Result<T>(400, "提交异常");
@@ -362,28 +362,28 @@ public class PerformanceServiceImpl implements PerformanceService {
         User user1 = userMapper.selectById(performance.getPerformanceUserId());
 
         QueryWrapper<PerformanceItem> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(performanceItemPerformanceId, performance.getPerformanceId());
+        queryWrapper.eq(PERFORMANCE_ITEM_PERFORMANCE_ID, performance.getPerformanceId());
         List<PerformanceItem> list = performanceItemMapper.selectList(queryWrapper);
         if (!"admin".equals(user.getUserStatus())) {
             return new Result<T>(400, "权限不足");
         }
-        if (managergraded.equals(performance.getPerformanceStatus())) {
+        if (MANAGERGRADED.equals(performance.getPerformanceStatus())) {
             return new Result<T>(400, "已无法修改评分");
         }
-        if (saved.equals(performance.getPerformanceStatus())) {
+        if (SAVED.equals(performance.getPerformanceStatus())) {
             return new Result<T>(400, "此绩效还未提交");
         }
         if (user.getUserId().equals(user1.getUserId())) {
             return new Result<T>(400, "权限不足");
         }
-        if (submited.equals(performance.getPerformanceStatus()) && user.getUserId().equals(user1.getUserDirectorId())) {
+        if (SUBMITED.equals(performance.getPerformanceStatus()) && user.getUserId().equals(user1.getUserDirectorId())) {
             for (PerformanceItem performanceItem : list) {
                 if (null == performanceItem.getPerformanceItemDirectorGrade()) {
                     return new Result<T>(400, "缺少直接主管评分");
                 }
 
             }
-            performance.setPerformanceStatus(directorgraded);
+            performance.setPerformanceStatus(DIRECTORGRADED);
             return new Result<>(200, "", performanceMapper.updateById(performance));
         }
 
@@ -391,14 +391,14 @@ public class PerformanceServiceImpl implements PerformanceService {
         Position position = positionMapper.selectById(user1.getUserPositionId());
         Department department = departmentMapper.selectById(position.getPositionDepartmentId());
 
-        if (directorgraded.equals(performance.getPerformanceStatus())) {
+        if (DIRECTORGRADED.equals(performance.getPerformanceStatus())) {
             if (user.getUserId().equals(department.getDepartmentManagerId())) {
                 for (PerformanceItem performanceItem : list) {
                     if (null == performanceItem.getPerformanceItemDepartmentManagerGrade()) {
                         return new Result<T>(400, "缺少部门主管评分");
                     }
                 }
-                performance.setPerformanceStatus(managergraded);
+                performance.setPerformanceStatus(MANAGERGRADED);
                 return new Result<>(200, "", performanceMapper.updateById(performance));
             }
             return new Result<T>(400, "请等待部门负责人评分");
@@ -411,7 +411,7 @@ public class PerformanceServiceImpl implements PerformanceService {
     public Result addSummary(String token, SummaryDTO summaryDTO) {
         Performance performance = performanceMapper.selectById(summaryDTO.getPerformanceId());
         User user = userMapper.selectById(JWTUtil.verifyToken(token).get("id").asString());
-        if (!managergraded.equals(performance.getPerformanceStatus())) {
+        if (!MANAGERGRADED.equals(performance.getPerformanceStatus())) {
             return new Result<T>(400, "还不可以总结");
         }
         if (user.getUserId().equals(performance.getPerformanceUserId())) {
@@ -422,7 +422,7 @@ public class PerformanceServiceImpl implements PerformanceService {
                 if (null == performance.getPerformanceEvaluation() || "".equals(performance.getPerformanceEvaluation())) {
                     return new Result<>(200, "保存成功,请等待部门负责人评价", performanceMapper.updateById(performance));
                 }
-                performance.setPerformanceStatus(summarized);
+                performance.setPerformanceStatus(SUMMARIZED);
                 return new Result<>(200, "保存成功,部门负责人已评价,此绩效之后无法更改", performanceMapper.updateById(performance));
 
             }
@@ -436,7 +436,7 @@ public class PerformanceServiceImpl implements PerformanceService {
         if (null == performance.getPerformanceConclusion() || "".equals(performance.getPerformanceConclusion())) {
             return new Result<>(200, "保存成功,请等待员工总结", performanceMapper.updateById(performance));
         }
-        performance.setPerformanceStatus(summarized);
+        performance.setPerformanceStatus(SUMMARIZED);
         return new Result<>(200, "保存成功,员工已总结,此绩效之后无法更改", performanceMapper.updateById(performance));
 
 
