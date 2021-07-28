@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * @author 咲蛍
@@ -31,7 +32,7 @@ public class DepartmentController {
     }
 
     @PostMapping("api/department/add")
-    public Result<T> addDepartment(HttpServletRequest request, @RequestBody DepartmentDTO departmentDTO) {
+    public Result<T> addDepartment(HttpServletRequest request,@Valid @RequestBody DepartmentDTO departmentDTO) {
         String token = request.getHeader(TOKEN);
         return departmentService.addDepartment(token, departmentDTO);
     }

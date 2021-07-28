@@ -45,11 +45,20 @@
             and department_id = #{departmentId}
         </where>
     </select>
-    <select id="selectALLAdminList" resultType="com.example.demo.entity.User">
+    <select id="selectAllAdminList" resultType="com.example.demo.entity.User">
         select * from tb_user
         <where>
             user_id not in (select department_manager_id from tb_department where department_status = "exist")
             and user_status = "admin"
+        </where>
+    </select>
+    <select id="selectUser" resultType="com.example.demo.vo.UserVO">
+        select * from tb_user,tb_position,tb_department
+        <where>
+            user_position_id = position_id
+            and position_department_id = department_id
+            and user_status != "delete"
+            and user_id = #{id}
         </where>
     </select>
 </mapper>
