@@ -63,7 +63,7 @@ public class PerformanceServiceImpl implements PerformanceService {
         if (StringUtils.isEmpty(performanceDTO.getTerm())) {
             return new Result<T>(400, "考核周期不能为空");
         }
-        List<DomainsDTO> list = performanceDTO.getDomainsDTO();
+        List<DomainsDTO> list = performanceDTO.getDomains();
         if (list.size() < 3) {
             return new Result<T>(400, "你这绩效也太短了吧");
         }

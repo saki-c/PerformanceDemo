@@ -33,4 +33,12 @@ public class DomainsDTO {
         return standard;
     }
 
+    @Override
+    public String toString() {
+        return "DomainsDTO{" +
+                "weight='" + weight + '\'' +
+                ", demand='" + demand + '\'' +
+                ", standard='" + standard + '\'' +
+                '}';
+    }
 }
