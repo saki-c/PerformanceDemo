@@ -1,16 +1,27 @@
 package com.example.demo.dto;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  *
  * @author 咲蛍
  * @date 2021/05/27
  */
 public class UserDTO {
+    @NotEmpty(message = "姓名不能为空")
     private String name;
+
+    @NotEmpty(message = "昵称不能为空")
     private String nickname;
+
+    @NotEmpty(message = "密码不能为空")
     private String password;
+
     private Integer positionId;
+
+    @NotEmpty(message = "入职时间不能为空")
     private String joinDate;
+
     private Integer directorId;
 
     public void setName(String name) {

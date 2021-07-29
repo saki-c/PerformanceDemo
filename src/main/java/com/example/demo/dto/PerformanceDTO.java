@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 /**
  *
@@ -7,7 +9,9 @@ import java.util.List;
  * @date 2021/05/17
  */
 public class PerformanceDTO {
+    @NotEmpty(message = "考核周期不能为空")
     private String term;
+
     private List<DomainsDTO> domains;
 
     public void setTerm(String term) {

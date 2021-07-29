@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     private static final String UTF = "utf-8";
 
-    private static final String MESS = "你有个锤子权限";
+    private static final String MESS = "权限不足";
 
     @Override
     public Result selectUserPage(String token, QueryDTO queryDTO) {
@@ -54,18 +54,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result addUser(String token, UserDTO userDTO) throws ParseException {
-        if (StringUtils.isEmpty(userDTO.getName())) {
-            return new Result<T>(400, "姓名不能为空");
-        }
-        if (StringUtils.isEmpty(userDTO.getNickname())) {
-            return new Result<T>(400, "昵称不能为空");
-        }
-        if (StringUtils.isEmpty(userDTO.getJoinDate())) {
-            return new Result<T>(400, "入职时间不能为空");
-        }
-        if (StringUtils.isEmpty(userDTO.getPassword())) {
-            return new Result<T>(400, "密码不能为空");
-        }
         if (userMapper.selectByUserNickname(userDTO.getNickname()) != null) {
             return new Result<T>(400, "已存在此用户");
         }

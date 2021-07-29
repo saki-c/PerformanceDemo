@@ -49,12 +49,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Result addDepartment(String token, DepartmentDTO departmentDTO) {
-        if (StringUtils.isEmpty(departmentDTO.getName())) {
-            return new Result<T>(400, "部门名称不能为空");
-        }
-        if (null == departmentDTO.getManagerId()) {
-            return new Result<T>(400, "部门主管不能为空");
-        }
         if (isSuperAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
             return new Result<T>(400, "权限不足");
         }
@@ -120,12 +114,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Result addPosition(String token, PositionDTO positionDTO) {
-        if (StringUtils.isEmpty(positionDTO.getName())) {
-            return new Result<T>(400, "岗位名称不能为空");
-        }
-        if (null == positionDTO.getDepartmentId()) {
-            return new Result<T>(400, "所属部门不能为空");
-        }
         if (isAdmin(JWTUtil.verifyToken(token).get("id").asString())) {
             return new Result<T>(400, "权限不足");
         }

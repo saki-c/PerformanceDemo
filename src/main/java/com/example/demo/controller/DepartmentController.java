@@ -6,6 +6,8 @@ import com.example.demo.dto.QueryDTO;
 import com.example.demo.service.DepartmentService;
 import com.example.demo.util.Result;
 import org.apache.poi.ss.formula.functions.T;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +34,15 @@ public class DepartmentController {
     }
 
     @PostMapping("api/department/add")
-    public Result<T> addDepartment(HttpServletRequest request,@Valid @RequestBody DepartmentDTO departmentDTO) {
+    public Result<T> addDepartment(HttpServletRequest request, @Valid @RequestBody DepartmentDTO departmentDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            String messages = bindingResult.getAllErrors()
+                    .stream()
+                    .map(ObjectError::getDefaultMessage)
+                    .reduce((m1, m2) -> m1 + "；" + m2)
+                    .orElse("参数输入有误！");
+            return new Result<>(400, messages);
+        }
         String token = request.getHeader(TOKEN);
         return departmentService.addDepartment(token, departmentDTO);
     }
@@ -49,19 +59,19 @@ public class DepartmentController {
     }
 
     @PostMapping("/api/department/position/add")
-    public Result<T> addPosition(HttpServletRequest request, @RequestBody PositionDTO positionDTO) {
+    public Result<T> addPosition(HttpServletRequest request, @Valid @RequestBody PositionDTO positionDTO) {
         String token = request.getHeader(TOKEN);
-        return departmentService.addPosition(token,positionDTO);
+        return departmentService.addPosition(token, positionDTO);
     }
 
     @PostMapping("/api/department/position/delete")
-    public Result<T> deletePosition(HttpServletRequest request, Integer positionId){
+    public Result<T> deletePosition(HttpServletRequest request, Integer positionId) {
         String token = request.getHeader(TOKEN);
         return departmentService.deletePosition(token, positionId);
     }
 
     @GetMapping("/api/department/position/list")
-    public Result<T> positionList(){
+    public Result<T> positionList() {
         return departmentService.positionList();
     }
 }

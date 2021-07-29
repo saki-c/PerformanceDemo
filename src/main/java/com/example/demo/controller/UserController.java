@@ -9,6 +9,7 @@ import org.apache.poi.ss.formula.functions.T;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.text.ParseException;
 
 
@@ -31,7 +32,7 @@ public class UserController {
      * @throws ParseException 编译异常
      */
     @PostMapping("/api/user/add")
-    public Result<T> addUser(HttpServletRequest request, @RequestBody UserDTO userDTO) throws ParseException {
+    public Result<T> addUser(HttpServletRequest request, @Valid @RequestBody UserDTO userDTO) throws ParseException {
         String token = request.getHeader(TOKEN);
         return userService.addUser(token,userDTO);
     }
@@ -67,7 +68,7 @@ public class UserController {
      * @return Result
      */
     @PostMapping("/api/user/update")
-    public Result<T> updateUser(HttpServletRequest request, @RequestBody PassDTO passDTO) {
+    public Result<T> updateUser(HttpServletRequest request, @Valid @RequestBody PassDTO passDTO) {
         String token = request.getHeader(TOKEN);
         return userService.updateUser(token,passDTO);
 

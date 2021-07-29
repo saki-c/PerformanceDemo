@@ -25,12 +25,6 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public Result login(LoginDTO loginDTO) {
-        if (StringUtils.isEmpty(loginDTO.getNickname())) {
-            return new Result<T>(400, "账号不能为空");
-        }
-        if (StringUtils.isEmpty(loginDTO.getPassword())) {
-            return new Result<T>(400, "密码不能为空");
-        }
         //通过登录名查询用户
         User user = userMapper.selectByUserNickname(loginDTO.getNickname());
         String passwordMd5 = MD5Util.MD5Encode(loginDTO.getPassword(), "utf-8");

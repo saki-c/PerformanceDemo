@@ -60,9 +60,6 @@ public class PerformanceServiceImpl implements PerformanceService {
 
     @Override
     public Result addPerformance(String token, PerformanceDTO performanceDTO) throws ParseException {
-        if (StringUtils.isEmpty(performanceDTO.getTerm())) {
-            return new Result<T>(400, "考核周期不能为空");
-        }
         List<DomainsDTO> list = performanceDTO.getDomains();
         if (list.size() < 3) {
             return new Result<T>(400, "你这绩效也太短了吧");

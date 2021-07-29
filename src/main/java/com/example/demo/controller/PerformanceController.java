@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.text.ParseException;
 
@@ -33,7 +34,7 @@ public class PerformanceController {
      * @throws ParseException 编译异常
      */
     @PostMapping("/api/performance/add")
-    public Result<T> performanceAdd(HttpServletRequest request, @RequestBody PerformanceDTO performanceDTO) throws ParseException {
+    public Result<T> performanceAdd(HttpServletRequest request, @Valid @RequestBody PerformanceDTO performanceDTO) throws ParseException {
         String token = request.getHeader(TOKEN);
         return performanceService.addPerformance(token, performanceDTO);
     }
