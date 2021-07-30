@@ -4,6 +4,8 @@ import com.example.demo.dto.LoginDTO;
 import com.example.demo.service.LoginService;
 import com.example.demo.util.Result;
 import org.apache.poi.ss.formula.functions.T;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,19 +22,14 @@ import javax.validation.Valid;
  */
 @RestController
 public class LoginController {
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
     @Resource
      private LoginService loginService;
 
     @PostMapping(value = "/api/login")
     public Result<T> login(@Valid @RequestBody LoginDTO loginDTO){
- /*       if (bindingResult.hasErrors()){
-            String messages = bindingResult.getAllErrors()
-                    .stream()
-                    .map(ObjectError::getDefaultMessage)
-                    .reduce((m1, m2) -> m1 +"；" + m2)
-                    .orElse("参数输入有误！");
-            return new Result<>(400,messages);
-        }*/
+        logger.info("登陆入参,{}",loginDTO);
         return loginService.login(loginDTO);
     }
 }

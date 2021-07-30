@@ -11,6 +11,8 @@ import com.example.demo.util.Result;
 import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,6 +30,7 @@ import java.util.List;
  */
 @Service
 public class PerformanceServiceImpl implements PerformanceService {
+    private static final Logger logger = LoggerFactory.getLogger(PerformanceServiceImpl.class);
     @Resource
     PerformanceMapper performanceMapper;
 
@@ -182,14 +185,14 @@ public class PerformanceServiceImpl implements PerformanceService {
                     wb.write(os);
                     os.flush();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("错误为:{}",e.getLocalizedMessage());
                 } finally {
                     try {
                         if (os != null) {
                             os.close();
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        logger.error("错误为:{}",e.getLocalizedMessage());
                         os.close();
                     }
                 }
@@ -245,14 +248,14 @@ public class PerformanceServiceImpl implements PerformanceService {
                     wb.write(os);
                     os.flush();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("错误为:{}",e.getLocalizedMessage());
                 } finally {
                     try {
                         if (os != null) {
                             os.close();
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        logger.error("错误为:{}",e.getLocalizedMessage());
                         os.close();
                     }
                 }

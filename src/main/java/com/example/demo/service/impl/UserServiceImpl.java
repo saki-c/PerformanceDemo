@@ -15,6 +15,8 @@ import com.example.demo.util.MD5Util;
 import com.example.demo.util.Result;
 import com.example.demo.vo.UserVO;
 import org.apache.poi.ss.formula.functions.T;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,6 +30,7 @@ import java.util.Date;
  */
 @Service
 public class UserServiceImpl implements UserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Resource
     UserMapper userMapper;
 

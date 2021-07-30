@@ -3,6 +3,8 @@ package com.example.demo.service;
 import com.example.demo.dto.DepartmentDTO;
 import com.example.demo.dto.PositionDTO;
 import com.example.demo.dto.QueryDTO;
+import com.example.demo.entity.Department;
+import com.example.demo.entity.Position;
 import com.example.demo.util.Result;
 import org.apache.poi.ss.formula.functions.T;
 
@@ -62,4 +64,25 @@ public interface DepartmentService {
      * @return Result
      */
     Result<T> positionList();
+
+    /**
+     * 部门查询
+     * @param departmentDTO departmentDTO
+     * @return Department
+     */
+    Department selectDepartment(DepartmentDTO departmentDTO);
+
+    /**
+     * 部门插入
+     * @param departmentDTO departmentDTO
+     * @return insertDepartment
+     */
+    Department insertDepartment(DepartmentDTO departmentDTO);
+
+    /**
+     *岗位插入
+     * @param positionDTO positionDTO
+     * @return Position
+     */
+    Position insertPosition(PositionDTO positionDTO);
 }
