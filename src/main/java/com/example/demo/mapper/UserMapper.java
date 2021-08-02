@@ -9,31 +9,33 @@ import com.example.demo.vo.UserVO;
 import java.util.List;
 
 /**
- *
  * @author 咲蛍
  * @date 2021/05/17
  */
 public interface UserMapper extends BaseMapper<User> {
 
     /**
-     *昵称查询
+     * 昵称查询
+     *
      * @param userNickname 用户昵称
      * @return user
      */
     User selectByUserNickname(String userNickname);
 
     /**
-     *用户分页查询
+     * 用户分页查询
+     *
      * @param departmentId 部门id
-     * @param page 分页
-     * @param keyword 关键字
+     * @param page         分页
+     * @param keyword      关键字
      * @return IPage
      */
     IPage<UserVO> selectUserPage(int departmentId, Page<UserVO> page, String keyword);
 
     /**
      * 管理员分页查询
-     * @param page 分页
+     *
+     * @param page    分页
      * @param keyword 关键字
      * @return IPage
      */
@@ -41,6 +43,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     /**
      * 管理员查询
+     *
      * @param departmentId 部门id
      * @return 用户列表
      */
@@ -48,12 +51,14 @@ public interface UserMapper extends BaseMapper<User> {
 
     /**
      * 管理员列表
+     *
      * @return 用户列表
      */
     List<User> selectAllAdminList();
 
     /**
      * 查询用户
+     *
      * @param id
      * @return
      */

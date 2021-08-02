@@ -32,40 +32,40 @@ public class DepartmentController {
 
     @PostMapping("api/department/list")
     public Result<T> departmentList(@RequestBody QueryDTO queryDTO) {
-        logger.info("部门列表入参,{}",queryDTO);
+        logger.info("部门列表入参,{}", queryDTO);
         return departmentService.selectDepartmentPage(queryDTO);
     }
 
     @PostMapping("api/department/add")
     public Result<T> addDepartment(HttpServletRequest request, @Valid @RequestBody DepartmentDTO departmentDTO) {
-        logger.info("添加部门入参,{}",departmentDTO);
+        logger.info("添加部门入参,{}", departmentDTO);
         String token = request.getHeader(TOKEN);
         return departmentService.addDepartment(token, departmentDTO);
     }
 
     @PostMapping("api/department/position/list")
     public Result<T> positionList(Integer departmentId) {
-        logger.info("部门岗位列表入参,{}",departmentId);
+        logger.info("部门岗位列表入参,{}", departmentId);
         return departmentService.selectPosition(departmentId);
     }
 
     @PostMapping("/api/department/delete")
     public Result<T> deleteDepartment(HttpServletRequest request, Integer departmentId) {
-        logger.info("删除部门入参,{}",departmentId);
+        logger.info("删除部门入参,{}", departmentId);
         String token = request.getHeader(TOKEN);
         return departmentService.deleteDepartment(token, departmentId);
     }
 
     @PostMapping("/api/department/position/add")
     public Result<T> addPosition(HttpServletRequest request, @Valid @RequestBody PositionDTO positionDTO) {
-        logger.info("添加岗位入参,{}",positionDTO);
+        logger.info("添加岗位入参,{}", positionDTO);
         String token = request.getHeader(TOKEN);
         return departmentService.addPosition(token, positionDTO);
     }
 
     @PostMapping("/api/department/position/delete")
     public Result<T> deletePosition(HttpServletRequest request, Integer positionId) {
-        logger.info("删除岗位入参,{}",positionId);
+        logger.info("删除岗位入参,{}", positionId);
         String token = request.getHeader(TOKEN);
         return departmentService.deletePosition(token, positionId);
     }

@@ -3,7 +3,6 @@ package com.example.demo.util;
 import java.io.Serializable;
 
 /**
- *
  * @author 咲蛍
  * @date 2021/05/17
  */
@@ -20,6 +19,7 @@ public class Result<T> implements Serializable {
         this.resultCode = resultCode;
         this.message = message;
     }
+
     public Result(int resultCode, String message, T data) {
         this.resultCode = resultCode;
         this.message = message;

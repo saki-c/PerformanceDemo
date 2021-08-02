@@ -13,8 +13,9 @@ import com.example.demo.vo.DepartmentVO;
  */
 public interface DepartmentMapper extends BaseMapper<Department> {
     /**
-     *分页查询
-     * @param page 页码
+     * 分页查询
+     *
+     * @param page    页码
      * @param keyword 关键字
      * @return IPage
      */
@@ -22,6 +23,7 @@ public interface DepartmentMapper extends BaseMapper<Department> {
 
     /**
      * 查询
+     *
      * @param departmentName 部门名称
      * @return Department
      */

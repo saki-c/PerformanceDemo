@@ -10,6 +10,7 @@ import com.example.demo.entity.Position;
 public interface PositionMapper extends BaseMapper<Position> {
     /**
      * 查询
+     *
      * @param positionName 岗位名称
      * @return Position
      */

@@ -4,12 +4,16 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+
 /**
- *
  * @author 咲蛍
  * @date 2021/05/17
  */
 public class HttpContextUtil {
+    private HttpContextUtil(){
+        throw new IllegalStateException("Utility class");
+    }
+
     public static HttpServletRequest getHttpServletRequest() {
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }

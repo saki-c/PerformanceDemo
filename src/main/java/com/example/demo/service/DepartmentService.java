@@ -15,6 +15,7 @@ import org.apache.poi.ss.formula.functions.T;
 public interface DepartmentService {
     /**
      * 分页查询
+     *
      * @param queryDTO queryDTO
      * @return Result
      */
@@ -22,7 +23,8 @@ public interface DepartmentService {
 
     /**
      * 添加部门
-     * @param token token
+     *
+     * @param token         token
      * @param departmentDTO departmentDTO
      * @return Result
      */
@@ -30,6 +32,7 @@ public interface DepartmentService {
 
     /**
      * 通过部门id查询其下岗位
+     *
      * @param departmentId 部门id
      * @return Result
      */
@@ -37,15 +40,17 @@ public interface DepartmentService {
 
     /**
      * 部门删除
+     *
      * @param departmentId 部门id
-     * @param  token token
+     * @param token        token
      * @return Result
      */
-    Result<T> deleteDepartment(String token,Integer departmentId);
+    Result<T> deleteDepartment(String token, Integer departmentId);
 
     /**
      * 添加岗位
-     * @param token token
+     *
+     * @param token       token
      * @param positionDTO positionDTO
      * @return Result
      */
@@ -53,20 +58,23 @@ public interface DepartmentService {
 
     /**
      * 岗位删除
-     * @param token token
+     *
+     * @param token      token
      * @param positionId 岗位id
      * @return Result
      */
-    Result<T> deletePosition(String token,Integer positionId);
+    Result<T> deletePosition(String token, Integer positionId);
 
     /**
      * 岗位列表
+     *
      * @return Result
      */
     Result<T> positionList();
 
     /**
      * 部门查询
+     *
      * @param departmentDTO departmentDTO
      * @return Department
      */
@@ -74,13 +82,15 @@ public interface DepartmentService {
 
     /**
      * 部门插入
+     *
      * @param departmentDTO departmentDTO
      * @return insertDepartment
      */
     Department insertDepartment(DepartmentDTO departmentDTO);
 
     /**
-     *岗位插入
+     * 岗位插入
+     *
      * @param positionDTO positionDTO
      * @return Position
      */

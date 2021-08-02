@@ -1,10 +1,9 @@
 package com.example.demo.dto;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
+
 /**
- *
  * @author 咲蛍
  * @date 2021/05/17
  */
@@ -17,6 +16,7 @@ public class PerformanceDTO {
     public void setTerm(String term) {
         this.term = term;
     }
+
     public String getTerm() {
         return term;
     }

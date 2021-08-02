@@ -17,6 +17,9 @@ import java.util.Map;
  * @date 2021/6/11
  */
 public class JWTUtil {
+    private JWTUtil(){
+        throw new IllegalStateException("Utility class");
+    }
     /**
      * token 过期时间
      */
@@ -86,7 +89,7 @@ public class JWTUtil {
         try {
             Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET);
             return JWT.require(algorithm).build().verify(token).getExpiresAt();
-        }catch (Exception e) {
+        } catch (Exception e) {
             return null;
         }
 
@@ -96,12 +99,12 @@ public class JWTUtil {
      * 获取jwt发布时间
      */
     public static Date getIssuedAt(String token) {
-       try{
-           Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET);
-           return JWT.require(algorithm).build().verify(token).getIssuedAt();
-       }catch (Exception e) {
-           return null;
-       }
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET);
+            return JWT.require(algorithm).build().verify(token).getIssuedAt();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -121,11 +124,12 @@ public class JWTUtil {
     }
 
     /**
-     *获取用户自定义Claim集合
+     * 获取用户自定义Claim集合
+     *
      * @param token
      * @return
      */
-    public static Map<String, Claim> getClaims(String token){
+    public static Map<String, Claim> getClaims(String token) {
         Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET);
         JWTVerifier verifier = JWT.require(algorithm).build();
         Map<String, Claim> jwt = verifier.verify(token).getClaims();
@@ -135,13 +139,13 @@ public class JWTUtil {
     /**
      * 检验token并解析token
      */
-    public static Map<String, Claim> verifyToken(String token){
-        DecodedJWT jwt=null;
+    public static Map<String, Claim> verifyToken(String token) {
+        DecodedJWT jwt = null;
         try {
-            JWTVerifier verifier=JWT.require(Algorithm.HMAC256(JWT_SECRET)).build();
-            jwt=verifier.verify(token);
-        }catch (Exception e){
-
+            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(JWT_SECRET)).build();
+            jwt = verifier.verify(token);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return jwt.getClaims();

@@ -3,7 +3,6 @@ package com.example.demo.dto;
 import javax.validation.constraints.NotEmpty;
 
 /**
- *
  * @author 咲蛍
  * @date 2021/05/17
  */
